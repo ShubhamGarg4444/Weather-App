@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" referrerpolicy="no-referrer" /> 
+    <script src="https://kit.fontawesome.com/5d8324cf19.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Weather App</title>
+</head>
+<body>
+
+    <!-- <form class="form">
+        <h3 id="cityn">Enter City Name:</h3>
+        <input type="text" id="cityi" placeholder="Pune, etc.">&nbsp;
+        <button onclick="getWeather()" id="getWeather">Get Weather</button>
+    </form> -->
+
+    <div class="box">
+
+        <div id="weathercon">
+            <i class="fa-solid fa-sun" style="color: #eccc68"></i>
+        </div>
+
+        <div class="info">
+            <h2 class="location">
+                <i class="fa-solid fa-location-dot" style="color: red"></i>
+                {%location%}, {%country%}
+            </h2>
+            <p id="date">WED | OCT 23 | 10:49AM</p>
+            <h1 class="temp" style="color: #3d348b">{%tempval%}&deg;C</h1>
+            <h3 class="tempmin_max">Min {%tempmin%}&deg;C | Max {%tempmax%}&deg;C</h3>
+        </div>
+    </div>
+
+    
+
+    <style>
+        *{
+        margin:0px;
+        padding:0px;
+        box-sizing: border-box;
+        }
+    
+        body{
+        height: 100vh ;
+        width : 100vw ;
+        overflow-x: hidden;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        display: flex ;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .form{
+            margin-bottom: 20px;
+        }
+        #cityn{
+            margin-bottom: 4px;
+        }
+        #cityi{
+            padding: 5px;
+            border-color: #16425b;
+        }
+        #getWeather{
+            padding: 5px;
+            background-color: #f0ead2;
+        }
+    
+        .box{
+        height: 70vh ;
+        width: 30vw ;
+        border : 1px solid blue ;
+        border-radius: 8px;
+        position: relative ;
+        overflow: hidden;
+        background-color: #caf0f8;
+        }
+        #weathercon{
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            font-size: 6rem;
+            margin-bottom: 25px;
+        }
+        .info{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .location{
+            margin-bottom: 15px;
+            color: #023e8a;
+        }
+        .temp{
+            margin-bottom: 10px;
+        }
+        #date{
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        .tempmin_max{
+            font-weight: 400;
+        }
+        </style>
+
+
+    <script>
+        const currDate = document.getElementById('date') ;
+        let weathercon = document.getElementById('weathercon') ;
+        const tempStatus = "{%tempstatus%}".toLowerCase();  
+
+        if(tempStatus.includes("sun")) {        
+          weathercon.innerHTML = "<i class='fa-solid fa-sun' style='color: #eccc68'></i>";
+        }
+        else if(tempStatus.includes("cloud")) {        
+          weathercon.innerHTML = "<i class='fa-solid fa-cloud' style='color: #92BAD2'></i>";
+        }
+        else if(tempStatus.includes("rain")) {        
+          weathercon.innerHTML = "<i class='fa-solid fa-cloud-rain' style='color: #a4b0be'></i>";
+        }
+        else {
+          weathercon.innerHTML = "<i class='fa-solid fa-cloud' style='color: #92BAD2'></i>";
+        }
+
+        const getCurrentDay = () => {
+            var weekday = new Array(7) ;
+            weekday[0] = "Sun" ;
+            weekday[1] = "Mon" ;
+            weekday[2] = "Tue" ;
+            weekday[3] = "Wed" ;
+            weekday[4] = "Thu" ;
+            weekday[5] = "Fri" ;
+            weekday[6] = "Sat" ;
+
+            let currentTime = new Date() ;
+            let day = weekday[currentTime.getDay()] ;
+            return day ;
+        };
+
+        const getCurrentTime = () => {
+            var months = [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            ];
+
+            var now = new Date() ;
+            var month = months[now.getMonth() + 1] ;
+            var date = now.getDate() ;
+            var year = now.getFullYear() ;
+
+            let hours = now.getHours() ;
+            let mins = now.getMinutes() ;
+
+            let period = "AM" ;
+            if(hours > 11)
+            {
+                period = "PM" ;
+                if(hours > 12) hours -= 12 ;
+            }
+            if(mins < 10)
+            {
+                mins = "0" + mins ;
+            }
+
+            return `${month} ${date} | ${hours}:${mins} ${period}`;
+        };
+
+        currDate.innerHTML = getCurrentDay() + " | " + getCurrentTime() ;
+
+    </script>
+
+</body>
+</html>
